@@ -87,4 +87,7 @@ int partition(int array[], int low, int high) // calcula la posicion real de un 
     3 6 7 [4]    ->    3 [4] 7 6
            |                   |
            j                   j
-    */
+
+    Conclusion: el algoritmo se basa en ser capaz de colocar elementos en su posicion real,
+    esto se repite sobre los intervalos particion de haber posicionado esos elementos en la posicion real.
+*/

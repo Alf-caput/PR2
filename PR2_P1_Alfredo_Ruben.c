@@ -14,11 +14,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "quicksort_int.h"
+#include "bubblesort_string.h"
 
 void ordenar_enteros();
-void ordenar_palabras();
 void print_array_ints(int *array, int n);
 void fill_array_ints(int *array, int length);
+
+void ordenar_palabras();
 void print_array_strings(char **array, int length);
 void fill_array_strings(char **array, int length);
 void free_array_strings(char **array, int length);
@@ -32,7 +34,7 @@ int main()
         \n                                     MENU\
         \n==============================================================================================");
         printf("\n  1.  Ordenacion de enteros de manera ascendente (Quick Sort).\
-        \n  2.  Ordenacion de cadenas alfabeticamente.\
+        \n  2.  Ordenacion de cadenas alfabeticamente (Bubble Sort).\
         \n  3.  Ordenacion de geolocalizaciones por longitud ascendente.\
         \n  4.  Salir del programa.\n");
         printf("----------------------------------------------------------------------------------------------\n");
@@ -46,7 +48,7 @@ int main()
             ordenar_enteros();
             break;
         case 2:
-        ordenar_palabras();
+            ordenar_palabras();
             break;
         case 3:
             break;
@@ -87,26 +89,6 @@ void ordenar_enteros() // ordena un array de enteros utilizando el algoritmo qui
     return;
 }
 
-void ordenar_palabras()
-{
-    int n;
-    char **v;
-
-    printf("Introduzca el numero de palabras a ordenar: ");
-    scanf("%d", &n);
-
-    v = malloc(sizeof(char*) * n);
-
-    fill_array_strings(v, n);
-    print_array_strings(v, n);
-    
-
-
-    free_array_strings(v, n);
-
-    return;
-}
-
 void print_array_ints(int *array, int length) // imprime un array de enteros
 {
     int i;
@@ -129,6 +111,29 @@ void fill_array_ints(int *array, int length) // rellena un array de enteros
     return;
 }
 
+void ordenar_palabras()
+{
+    int n;
+    char **v;
+
+    printf("Introduzca el numero de palabras a ordenar: ");
+    scanf("%d", &n);
+
+    v = malloc(sizeof(char*) * n);
+
+    fill_array_strings(v, n);
+    printf("Ha introducido: \n");
+    print_array_strings(v, n);
+    
+    bubblesort(v, n);
+    printf("\nOrdenando . . .\n");
+    print_array_strings(v, n);
+
+    free_array_strings(v, n);
+
+    return;
+}
+
 void print_array_strings(char **array, int length)
 {
     int i;
@@ -136,26 +141,29 @@ void print_array_strings(char **array, int length)
     {
         printf("%s\n", array[i]);
     }
+    printf("\n");
     return;
 }
 
-void fill_array_strings(char **array, int length) // rellena un array de enteros
+void fill_array_strings(char **array, int length) // rellena un array de strings
 {
     char buffer[4096];
     int str_length;
     int i;
 
-    while (getchar() != '\n');
+    while (getchar() != '\n'); // descartamos '\n' de stdin
 
     printf("\n");
     for (i = 0; i < length; i++)
     {
         printf("Introduzca palabra [%d]: ", i+1);
         fgets(buffer, 4096, stdin); // nota: fgets() guarda '\n'
-        str_length = strlen(buffer); // no incluye '\0'
+
+        str_length = strlen(buffer); // no cuenta '\0' es decir {'h', 'o', 'l', 'a', '\n', '\0'} tiene longitud 5
         buffer[str_length - 1] = '\0'; // cambiamos '\n' por '\0'
-        array[i] = malloc(str_length * sizeof(char));
-        strcpy(array[i], buffer);
+
+        array[i] = malloc(str_length * sizeof(char)); // reservamos memoria para cada posicion de nuestro array de strings (no se suma 1 porque hemos sustituido '\n' por '\0')
+        strcpy(array[i], buffer); // copiamos el contenido de buffer en la posicion de nuestro array de strings
     }
     return;
 }
