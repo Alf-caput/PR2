@@ -12,11 +12,16 @@
  *===========================================================================*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "quicksort_int.h"
 
 void ordenar_enteros();
-void print_array_int(int arr[], int n);
-void fill_array_int(int array[], int length);
+void ordenar_palabras();
+void print_array_ints(int *array, int n);
+void fill_array_ints(int *array, int length);
+void print_array_strings(char **array, int length);
+void fill_array_strings(char **array, int length);
+void free_array_strings(char **array, int length);
 
 int main()
 {
@@ -41,6 +46,7 @@ int main()
             ordenar_enteros();
             break;
         case 2:
+        ordenar_palabras();
             break;
         case 3:
             break;
@@ -62,7 +68,7 @@ int main()
 
 void ordenar_enteros() // ordena un array de enteros utilizando el algoritmo quicksort
 {
-    int n = 0;
+    int n;
     int *v;
 
     printf("Introduzca el numero de elementos a ordenar: ");
@@ -70,18 +76,38 @@ void ordenar_enteros() // ordena un array de enteros utilizando el algoritmo qui
 
     v = (int*) malloc(sizeof(int) * n);
 
-    fill_array_int(v, n);
-    print_array_int(v, n);
+    fill_array_ints(v, n);
+    print_array_ints(v, n);
 
     quicksort(v, n);
-    print_array_int(v, n);
+    print_array_ints(v, n);
 
     free(v);
     v = NULL;
     return;
 }
 
-void print_array_int(int array[], int length) // imprime un array de enteros
+void ordenar_palabras()
+{
+    int n;
+    char **v;
+
+    printf("Introduzca el numero de palabras a ordenar: ");
+    scanf("%d", &n);
+
+    v = malloc(sizeof(char*) * n);
+
+    fill_array_strings(v, n);
+    print_array_strings(v, n);
+    
+
+
+    free_array_strings(v, n);
+
+    return;
+}
+
+void print_array_ints(int *array, int length) // imprime un array de enteros
 {
     int i;
     for (i = 0; i < length; i++)
@@ -92,7 +118,7 @@ void print_array_int(int array[], int length) // imprime un array de enteros
     return;
 }
 
-void fill_array_int(int array[], int length) // rellena un array de enteros
+void fill_array_ints(int *array, int length) // rellena un array de enteros
 {
     int i;
     for (i = 0; i < length; i++)
@@ -100,5 +126,48 @@ void fill_array_int(int array[], int length) // rellena un array de enteros
         printf("Introduzca el elemento [%d]: ", i+1);
         scanf("%d", &array[i]);
     }
+    return;
+}
+
+void print_array_strings(char **array, int length)
+{
+    int i;
+    for (i = 0; i < length; i++)
+    {
+        printf("%s\n", array[i]);
+    }
+    return;
+}
+
+void fill_array_strings(char **array, int length) // rellena un array de enteros
+{
+    char buffer[4096];
+    int str_length;
+    int i;
+
+    while (getchar() != '\n');
+
+    printf("\n");
+    for (i = 0; i < length; i++)
+    {
+        printf("Introduzca palabra [%d]: ", i+1);
+        fgets(buffer, 4096, stdin); // nota: fgets() guarda '\n'
+        str_length = strlen(buffer); // no incluye '\0'
+        buffer[str_length - 1] = '\0'; // cambiamos '\n' por '\0'
+        array[i] = malloc(str_length * sizeof(char));
+        strcpy(array[i], buffer);
+    }
+    return;
+}
+
+void free_array_strings(char **array, int length)
+{
+    int i;
+    for (i = 0; i < length; i++)
+    {
+        free(array[i]);
+    }
+    free(array);
+    array = NULL;
     return;
 }
