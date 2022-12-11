@@ -7,13 +7,13 @@ void str_tolower(char* string);
 
 void bubblesort(char **strings, int n)
 {
-    int i, j, k;
+    int i, j;
     char *aux;
     char *copia_burbuja;
     char *copia_siguiente;
     for (j = 0; j < n; j++)
     {
-        for (i = 0; i < n - 1; i++)
+        for (i = 0; i < n - 1 - j; i++) // restamos j porque al final de cada iteracion de j hemos ordenado el ultimo elemento (hemos puesto al final el mayor)
         {
             copia_burbuja = (char*) malloc(sizeof(char) * (strlen(strings[i]) + 1));
             copia_siguiente = (char*) malloc(sizeof(char) * (strlen(strings[i+1]) + 1));
