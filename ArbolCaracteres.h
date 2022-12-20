@@ -14,6 +14,13 @@ struct nodoCadena
     struct nodoCadena *derecha;
 };
 
+struct nodoCadena *nuevoNodo(char cadena[MAXIMA_LONGITUD_CADENA]);
+void agregar(struct nodoCadena *nodo, char *cadena);
+struct nodoCadena *buscar(struct nodoCadena *nodo, char *cadena);
+void preorden(struct nodoCadena *nodo);
+void inorden(struct nodoCadena *nodo);
+void postorden(struct nodoCadena *nodo);
+
 struct nodoCadena *nuevoNodo(char cadena[MAXIMA_LONGITUD_CADENA])
 {
     // Solicitar memoria
@@ -98,59 +105,4 @@ void postorden(struct nodoCadena *nodo)
         postorden(nodo->derecha);
         printf("%s,", nodo->cadena);
     }
-}
-
-int main(int argc, char const *argv[])
-{
-    // Declarar raíz
-    struct nodoCadena *raiz = NULL;
-    // También podría ser:
-    // struct nodoCadena *raiz = nuevoNodo("Dato");
-    // La primera vez hay que comprobar si la raíz es NULL
-    char base [50];
-	int contador;
-    printf("Introduzca la cantidad de nodos que desea insertar: ");
-	scanf("%d",&contador);
-	gets(base);
-    if (raiz == NULL)
-    {
-        raiz = nuevoNodo(base);
-    }
-    // Agregar varias cadenas
-    for(int i = 0; i < contador; i++)
-    {
-    	printf("Introduzca el %d elemento: ", i + 1);
-    	gets(base);
-    	agregar(raiz,base);
-	}
-    printf("\nInorden: \n");
-    inorden(raiz);
-    printf("\nPostorden: \n");
-    postorden(raiz);
-    printf("\nPreorden: \n");
-    preorden(raiz);
-    printf("\n");
-    // Mostrar búsqueda
-    char busqueda[MAXIMA_LONGITUD_CADENA] = "Chris";
-    struct nodoCadena *apuntador = buscar(raiz, busqueda);
-    if (apuntador == NULL)
-    {
-        printf("%s no existe en el arbol\n", busqueda);
-    }
-    else
-    {
-        printf("%s si existe en el arbol\n", busqueda);
-    }
-    // Otra búsqueda con alguien que sabemos que sí existe
-    char otraBusqueda[MAXIMA_LONGITUD_CADENA] = "Guido";
-    apuntador = buscar(raiz, otraBusqueda);
-    if (apuntador != NULL)
-    {
-        printf("%s si existe en el arbol\n", otraBusqueda);
-    }
-    else
-    {
-        printf("%s si existe en el arbol\n", otraBusqueda);
-    }
-    return 0;
 }
