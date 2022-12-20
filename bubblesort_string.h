@@ -15,7 +15,7 @@ void bubblesort(char **strings, int n)
     {
         for (i = 0; i < n - 1 - j; i++) // restamos j porque al final de cada iteracion de j hemos ordenado el ultimo elemento (hemos puesto al final el mayor)
         {
-            copia_burbuja = (char*) malloc(sizeof(char) * (strlen(strings[i]) + 1));
+            copia_burbuja = (char*) malloc(sizeof(char) * (strlen(strings[i]) + 1)); // sumamos 1 para que quepa el '\0'
             copia_siguiente = (char*) malloc(sizeof(char) * (strlen(strings[i+1]) + 1));
 
             strcpy(copia_burbuja, strings[i]); // realizamos una copia de la string actual y la siguiente
